@@ -82,21 +82,20 @@ router.put("/:id", (req, res, next) => {
 //geef een correct antwoord terug net zoals we dat hierboven gedaan hebben (status, message)
 //je response bevat status en message
 
+// DELETE /api/v1/messages/:id
 router.delete("/:id", (req, res, next) => {
-
     res.status(200).json({
-
-        _id: req.params.id,
-
-        status: "success",
-
-        message: "DELETE message"
-
+      status: "success",
+      message: "DELETE message",
+      data: {
+        message: {
+          _id: req.params.id,
+        },
+      },
     });
-
-}
-
-);
+  });
+  
+  
 
 module.exports = router;
 
