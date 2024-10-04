@@ -83,11 +83,20 @@ router.put("/:id", (req, res, next) => {
 //je response bevat status en message
 
 router.delete("/:id", (req, res, next) => {
+
     res.status(200).json({
+
+        _id: req.params.id,
+
         status: "success",
+
         message: "DELETE message"
+
     });
+
 }
+
 );
+
 module.exports = router;
 
