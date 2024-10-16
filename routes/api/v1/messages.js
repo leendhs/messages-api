@@ -9,6 +9,9 @@ const messageController = require("../../../controllers/api/v1/message");
 
 router.get("/", messageController.index); 
 
+router.get("/messages/:username", messageController.getByBuyer);
+
+
 // GET /api/v1/messages
 router.get("/", (req, res, next) => {
   res.status(200).json({
@@ -85,28 +88,37 @@ router.delete("/:id", (req, res, next) => {
 
 const getByBuyer = async (req, res) => {
   try {
-    const messages = await Message.find({user: req.query.user});
-    if (messages.length === 0){
+    // Haal de username op uit de URL parameters
+    const username = req.params.username;
+
+    // Zoek berichten op basis van de user (username)
+    const messages = await Message.find({ user: username });
+
+    // Als er geen berichten zijn voor de user, geef een 404 response
+    if (messages.length === 0) {
       return res.status(404).json({
         status: 'error',
-        message: 'no messages found for this user',
+        message: `No messages found for user: ${username}`,
       });
     }
+
+    // Als berichten zijn gevonden, geef ze terug in de response
     res.json({
       status: 'success',
       data: {
         messages: messages,
       }
     });
-  }
-  catch (err) {
+  } catch (err) {
+    // Foutafhandeling
     res.status(500).json({
       status: 'error',
-      message: 'could not retrieve messages',
+      message: 'Could not retrieve messages',
       error: err.message,
     });
   }
-}
+};
+
 
 
 module.exports = router;
