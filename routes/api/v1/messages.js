@@ -1,6 +1,4 @@
 
-
-
 // Add routes
 const express = require("express");
 const router = express.Router();
@@ -32,6 +30,17 @@ router.get("/", (req, res, next) => {
       ],
     },
   });
+  if (req.query.user) {
+    const user = req.query.user;
+    const messages = await Message.find({ user: user });
+    res.json({
+      status: "success",
+      data: {
+        messages: messages,
+      },
+    });
+    return;
+  }
 });
 
 // GET /api/v1/messages/:id
@@ -118,6 +127,7 @@ const getByBuyer = async (req, res) => {
     });
   }
 };
+
 
 
 
